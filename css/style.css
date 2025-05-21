@@ -1,0 +1,505 @@
+/* Global Styles */
+:root {
+    --accent-color: #007bff; /* Updated to a more standard blue */
+    --accent-color-darker: #0056b3;
+    --background-light: #f8f9fa;
+    --background-card: #ffffff;
+    --text-primary: #212529;
+    --text-secondary: #495057;
+    --border-light: #dee2e6;
+    --border-medium: #ced4da;
+    --shadow-soft: 0 4px 8px rgba(0, 0, 0, 0.05);
+    --shadow-medium: 0 6px 12px rgba(0, 0, 0, 0.1);
+    --border-radius-standard: 6px; /* Standardized border radius */
+    --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-family-sans-serif);
+    font-size: 16px;
+    line-height: 1.6;
+    background-color: var(--background-light);
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    transition: background-color 0.3s ease; /* For potential theme changes */
+}
+
+/* General Element Styling */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-primary);
+    font-weight: 600; /* Slightly bolder headings */
+}
+
+button, input[type="button"], input[type="submit"], input[type="reset"] {
+    font-family: inherit;
+    font-size: 1em;
+    padding: 0.7em 1.5em;
+    border-radius: var(--border-radius-standard);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+    box-shadow: var(--shadow-soft);
+}
+
+button:hover, input[type="button"]:hover, input[type="submit"]:hover, input[type="reset"]:hover {
+    box-shadow: var(--shadow-medium);
+    transform: translateY(-1px);
+}
+
+button:active, input[type="button"]:active, input[type="submit"]:active, input[type="reset"]:active {
+    transform: translateY(0px) scale(0.98);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+button:disabled, input:disabled {
+    background-color: #e9ecef;
+    color: #6c757d;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+input[type="number"], input[type="text"] {
+    font-family: inherit;
+    font-size: 1em;
+    padding: 0.7em;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--border-radius-standard);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="number"]:focus, input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+
+/* Header */
+header {
+    background-color: var(--background-card);
+    color: var(--text-primary);
+    padding: 1.5em 1em;
+    text-align: center;
+    box-shadow: var(--shadow-soft); /* Subtle shadow for header */
+    z-index: 10; /* Keep header above other content if it overlaps */
+}
+
+header h1 {
+    font-size: 2.2em; /* Slightly larger */
+    margin: 0;
+    font-weight: 700; /* More prominent */
+}
+
+/* Navigation */
+nav {
+    background-color: var(--background-card);
+    padding: 1em;
+    text-align: center;
+    border-bottom: 1px solid var(--border-light);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03); /* Softer shadow */
+}
+
+nav a.game-nav-link {
+    margin: 0 0.8em;
+    padding: 0.6em 1.2em; /* Slightly adjusted padding */
+    text-decoration: none;
+    color: var(--accent-color);
+    border-radius: var(--border-radius-standard);
+    font-weight: 500; /* Medium weight for nav links */
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+nav a.game-nav-link:hover {
+    background-color: var(--accent-color-darker);
+    color: white;
+    transform: translateY(-1px);
+}
+
+nav a.game-nav-link.active-game-link {
+    background-color: var(--accent-color);
+    color: white;
+    font-weight: 600;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Main Content */
+main {
+    flex-grow: 1;
+    padding: 2em 1em; /* Increased padding for more breathing room */
+    width: 90%; /* Slightly wider */
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex; /* Ensure main can center its content if needed */
+    justify-content: center;
+}
+
+#game-container {
+    background-color: transparent; /* Game container itself is just a holder */
+    border: none; /* Remove border from main container */
+    padding: 0; /* No padding for the main container, game areas will have it */
+    min-height: auto; /* Let content define height */
+    display: flex; /* Changed from flex to allow game areas to manage their own display */
+    width: 100%;
+    align-items: flex-start; /* Align items to the top */
+    justify-content: center; /* Center game content if narrower */
+}
+
+/* Generic Game Area Styling (Card-like) */
+.game-area {
+    display: flex; /* Will be overridden by JS to none/flex as needed */
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    padding: 2em; /* Generous padding */
+    background-color: var(--background-card);
+    border-radius: var(--border-radius-standard);
+    box-shadow: var(--shadow-medium);
+    width: 100%;
+    max-width: 500px; /* Default max-width for game cards */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease; /* For animations */
+    opacity: 1; /* Start visible, JS will handle fade-in/out */
+}
+
+.game-area:hover {
+    transform: translateY(-3px) scale(1.01); /* Subtle lift and scale */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.game-area h2 {
+    font-size: 1.8em; /* Standardized game titles */
+    margin-bottom: 0.5em;
+    color: var(--text-primary);
+}
+
+.game-area p {
+    margin-bottom: 0.8em; /* Standardized paragraph spacing */
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+
+/* Footer */
+footer {
+    background-color: #343a40; /* Darker footer */
+    color: var(--background-light);
+    padding: 1.5em 1em; /* More padding */
+    text-align: center;
+    font-size: 0.9em;
+    border-top: 1px solid #495057;
+}
+
+a { /* General link styling, if not overridden */
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--accent-color-darker);
+    text-decoration: none; /* Keep underline off for most links unless specified */
+}
+
+/* Number Guessing Game Styles */
+#number-guessing-game-area {
+    /* Inherits .game-area styles */
+    max-width: 450px; /* Specific max-width */
+}
+
+#guessInput {
+    /* Inherits general input styles */
+    width: clamp(150px, 60%, 250px); /* Responsive width */
+    text-align: center;
+}
+
+#guessButton, #playAgainButton {
+    /* Inherits general button styles */
+    background-color: var(--accent-color);
+    color: white;
+}
+
+#guessButton:hover, #playAgainButton:hover {
+    background-color: var(--accent-color-darker);
+}
+
+#feedbackMessage {
+    margin-top: 0.5em;
+    font-weight: 500; /* Slightly less bold */
+    min-height: 1.6em; /* Adjusted for line-height */
+    font-size: 1.05em;
+}
+
+#feedbackMessage.success {
+    color: #28a745;
+}
+
+#feedbackMessage.error {
+    color: #dc3545;
+}
+
+#feedbackMessage.info {
+    color: #17a2b8;
+}
+
+/* Whack-a-Mole Game Styles */
+#whack-a-mole-game-area {
+    /* Inherits .game-area styles */
+    max-width: 420px; /* Grid + padding */
+}
+
+#startMoleGameButton {
+    /* Inherits general button styles */
+    background-color: var(--accent-color);
+    color: white;
+    margin-bottom: 1em;
+}
+#startMoleGameButton:hover {
+    background-color: var(--accent-color-darker);
+}
+
+
+#moleGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 12px; /* Slightly larger gap */
+    width: 300px;
+    height: 300px;
+    background-color: #a0855c;
+    padding: 12px; /* Consistent with gap */
+    border-radius: var(--border-radius-standard);
+    border: 3px solid #705d3e;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2); /* Inner shadow for depth */
+}
+
+.mole-cell {
+    background-color: #c2a57a;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 2px solid #8b7355;
+    transition: background-color 0.1s ease, transform 0.1s ease; /* Added transform */
+}
+
+.mole-cell:hover:not(.mole-active) { /* Only hover on empty cells */
+    background-color: #b0936b;
+    transform: scale(1.05);
+}
+
+.mole-cell.mole-active {
+    background-color: #5a3a22; /* Darker brown for mole */
+    background-image: url('../images/mole.png'); /* Assuming a mole image - will likely fail */
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: scale(1);
+    animation: moleAppear 0.2s ease-out;
+    color: white; /* For text fallback */
+    display: flex; /* For centering text fallback */
+    justify-content: center; /* For centering text fallback */
+    align-items: center; /* For centering text fallback */
+    font-size: 2em; /* Make text fallback large */
+    font-weight: bold;
+}
+
+.mole-cell.mole-active::before {
+    content: "M"; /* Text fallback if image fails */
+    /* This pseudo-element will only be visible if the background-image fails to load or is none */
+}
+
+
+@keyframes moleAppear {
+    from { transform: scale(0.5); opacity: 0.5; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+
+/* Tic-Tac-Toe Game Styles */
+#tic-tac-toe-game-area {
+    /* Inherits .game-area styles */
+    max-width: 380px;
+}
+
+#ticTacToeStatus {
+    font-size: 1.2em;
+    font-weight: 500;
+    min-height: 1.6em;
+    color: var(--text-secondary);
+}
+
+#ticTacToeBoard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    width: 300px;
+    height: 300px;
+    border: none; /* Remove main board border, cells will form grid */
+    background-color: var(--background-card); /* Board background */
+    gap: 5px; /* Create grid lines with gap and background color */
+    border-radius: var(--border-radius-standard);
+    overflow: hidden; /* Ensure cell corners don't poke out of rounded board */
+    box-shadow: var(--shadow-soft);
+}
+
+.ttt-cell {
+    background-color: #e9ecef; /* Light background for cells */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3.5em; /* Slightly larger marks */
+    font-weight: 700; /* Bolder X and O */
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    border-radius: var(--border-radius-standard); /* Rounded cells */
+    /* No individual borders needed due to board gap */
+}
+
+.ttt-cell:hover {
+    background-color: #ced4da; /* Darker hover for cells */
+}
+
+.ttt-cell.player-x {
+    color: #d9534f; /* Updated X color */
+    animation: markAppear 0.2s ease-in;
+}
+
+.ttt-cell.player-o {
+    color: var(--accent-color); /* O uses accent color */
+    animation: markAppear 0.2s ease-in;
+}
+
+@keyframes markAppear {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.ttt-cell.winning-cell {
+    background-color: var(--accent-color-darker);
+    color: white !important; /* Ensure text is white on winning cells */
+    animation: winningPulse 0.6s infinite alternate;
+}
+
+@keyframes winningPulse {
+    from { box-shadow: 0 0 5px var(--accent-color-darker); }
+    to { box-shadow: 0 0 15px var(--accent-color); }
+}
+
+
+#ticTacToeResetButton {
+    /* Inherits general button styles */
+    background-color: var(--accent-color);
+    color: white;
+    margin-top: 0.5em;
+}
+#ticTacToeResetButton:hover {
+    background-color: var(--accent-color-darker);
+}
+
+/* Memory Game Styles */
+#memory-game-area {
+    /* Inherits .game-area styles: flex, column, align-items, gap, padding, bg, radius, shadow, width, max-width */
+    max-width: 520px; /* Adjust as needed for board size + padding */
+}
+
+#memoryGameControls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0.5em 1em;
+    background-color: #e9ecef; /* Light background for controls */
+    border-radius: var(--border-radius-standard);
+    margin-bottom: 1em;
+    flex-wrap: wrap; /* Allow controls to wrap on smaller screens */
+    gap: 0.5em;
+}
+
+#memoryGameControls span {
+    font-size: 1em;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+#memoryResetButton {
+    /* Inherits general button styles */
+    background-color: var(--accent-color);
+    color: white;
+    padding: 0.6em 1em; /* Slightly smaller padding for this button if needed */
+}
+#memoryResetButton:hover {
+    background-color: var(--accent-color-darker);
+}
+
+
+#memoryGameBoard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* For 16 cards (4x4) */
+    grid-gap: 10px;
+    width: 100%;
+    max-width: 480px; /* Example: 4 cards * (100px width + 10px gap) - 10px gap */
+    margin: 0 auto; /* Center the board if it's narrower than game-area max-width */
+    perspective: 1000px; /* For 3D flip effect */
+    justify-items: center; /* Center cards within their grid cells */
+}
+
+.memory-card {
+    width: 100px; /* Adjust card size as needed */
+    height: 100px; /* Adjust card size as needed */
+    position: relative;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    border-radius: var(--border-radius-standard);
+    box-shadow: var(--shadow-soft);
+}
+
+.memory-card.flipped {
+    transform: rotateY(180deg);
+}
+
+.card-face, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Essential for 3D flip */
+    border-radius: var(--border-radius-standard);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em; /* Adjust based on card content */
+    font-weight: bold;
+}
+
+.card-back {
+    background-color: var(--accent-color);
+    color: white;
+    /* content: '?'; /* Can be added via ::before if preferred */
+}
+
+.card-face {
+    background-color: #e9ecef; /* Light background for card face */
+    color: var(--text-primary);
+    transform: rotateY(180deg); /* Pre-flip the face */
+}
+
+.memory-card.matched {
+    cursor: default;
+    opacity: 0.6; /* Indicate matched */
+    transform: rotateY(180deg) scale(0.95); /* Keep face visible, slightly shrink */
+    box-shadow: none;
+}
+
+.memory-card.matched .card-face {
+    background-color: #d4edda; /* Greenish tint for matched cards */
+    color: #155724;
+}
